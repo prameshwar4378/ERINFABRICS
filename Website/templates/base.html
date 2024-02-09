@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+	<title>Erinfabrics</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	{% comment %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	{% endcomment %}
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<style>
+	body {
+		background: #F0F4F5;
+	}
+
+	.shopping-card {
+		-webkit-box-shadow: 1px 1px 15px 0px rgba(0, 0, 0, 0.57);
+		-moz-box-shadow: 1px 1px 15px 0px rgba(0, 0, 0, 0.57);
+		box-shadow: 2px 2px 7px -2px rgba(0, 0, 0, 0.57);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+
+	.price {
+		font-size: 1.4rem;
+		font-weight: 500;
+	}
+
+	.strickthrough {
+		color: gray;
+	}
+
+	.discount {
+		color: green;
+	}
+
+	/* Custom CSS to display 5 cards in a single row */
+	@media (min-width: 768px) {
+		.shopping-card {
+			width: 100%;
+			margin-right: 2%;
+			margin-left: 2%;
+		}
+
+		.row {
+			margin-right: -2%;
+			margin-left: -2%;
+		}
+	}
+</style>
+
+<body>
+
+	<!-- header start -->
+	<header class="header  bg-gradient-primary">
+		<div class="container">
+			<div class="row v-center">
+				<div class="header-item item-left">
+					<div class="logo">
+						<a href="#">Erinfabrics</a>
+					</div>
+				</div>
+				<!-- menu start here -->
+				<div class="header-item item-center">
+					<div class="menu-overlay">
+					</div>
+					<nav class="menu">
+						<div class="mobile-menu-head">
+							<div class="go-back"><i class="fa fa-angle-left"></i></div>
+							<div class="current-menu-title"></div>
+							<div class="mobile-menu-close">&times;</div>
+						</div>
+						<ul class="menu-main">
+							<li>
+								<a href="#">Home</a>
+							</li>
+							<li class="menu-item-has-children">
+								<a href="#">New <i class="fa fa-angle-down"></i></a>
+								<div class="sub-menu mega-menu mega-menu-column-4">
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p1.jpg' %}" alt="new Product">
+											<h4 class="title">Product 1</h4>
+										</a>
+									</div>
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p2.jpg' %}" alt="new Product">
+											<h4 class="title">Product 2</h4>
+										</a>
+									</div>
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p3.jpg' %}" alt="new Product">
+											<h4 class="title">Product 3</h4>
+										</a>
+									</div>
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p4.jpg' %}" alt="new Product">
+											<h4 class="title">Product 4</h4>
+										</a>
+									</div>
+								</div>
+							</li>
+							<li class="menu-item-has-children">
+								<a href="#">Trending <i class="fa fa-angle-down"></i></a>
+								<div class="sub-menu mega-menu mega-menu-column-4">
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p1.jpg' %}" alt="new Product">
+											<h4 class="title">Product 1</h4>
+										</a>
+									</div>
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p2.jpg' %}" alt="new Product">
+											<h4 class="title">Product 2</h4>
+										</a>
+									</div>
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p3.jpg' %}" alt="new Product">
+											<h4 class="title">Product 3</h4>
+										</a>
+									</div>
+									<div class="list-item text-center">
+										<a href="#">
+											<img src="{% static 'img/p4.jpg' %}" alt="new Product">
+											<h4 class="title">Product 4</h4>
+										</a>
+									</div>
+								</div>
+							</li>
+							<li class="menu-item-has-children">
+								<a href="#">Shop <i class="fa fa-angle-down"></i></a>
+								<div class="sub-menu mega-menu mega-menu-column-4">
+									<div class="list-item">
+										<h4 class="title">Men's Fashion</h4>
+										<ul>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+										</ul>
+										<h4 class="title">Beauty</h4>
+										<ul>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+										</ul>
+									</div>
+									<div class="list-item">
+										<h4 class="title">Women's Fashion</h4>
+										<ul>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+										</ul>
+										<h4 class="title">Furniture</h4>
+										<ul>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+										</ul>
+									</div>
+									<div class="list-item">
+										<h4 class="title">Home, Kitchen</h4>
+										<ul>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+											<li><a href="#">Product List</a></li>
+										</ul>
+									</div>
+									<div class="list-item">
+										<img src="{% static 'img/shop1.jpg' %}" alt="shop">
+									</div>
+								</div>
+							</li>
+
+
+							<li>
+								<a href="#">Contact</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<!-- menu end here -->
+				<div class="header-item item-right">
+					<a href="#"><i class="fas fa-search"></i></a>
+					<a href="#"><i class="far fa-heart"></i></a>
+					<a href="#"><i class="fas fa-shopping-cart"></i></a>
+					<!-- mobile menu trigger -->
+					<div class="mobile-menu-trigger">
+						<span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- header end -->
+
+	<!-- banner start -->
+	<section class="banner-section" style="margin:7px;">
+		{% block content %}{% endblock content %}
+	</section>
+	<!-- banner end -->
+
+	<footer class="footer-07 container-fluid bg-info text-light mb-3 py-3">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12 text-center">
+					<h2 class="footer-heading "><a href="#" class="logo" style="color:yellow;">Erinfabrics.com</a></h2>
+					<p class="menu ">
+						<a href="#" style="color:yellow;" class="mx-2">Home</a>
+						<a href="#" style="color:yellow;" class="mx-2">Shopping</a>
+						<a href="#" style="color:yellow;" class="mx-2">Letest</a>
+						<a href="#" style="color:yellow;" class="mx-2">Blog</a>
+						<a href="#" style="color:yellow;" class="mx-2">Contact</a>
+					</p>
+
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-md-12 text-center">
+					<p class="copyright">
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;<script>
+							document.write(new Date().getFullYear());
+						</script> All rights reserved | Developed by <i class="ion-ios-heart" aria-hidden="true"></i> by
+						<a href="https://snyamtech.com" target="_blank" style="color:yellow;">snyamtech.com</a>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	<script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

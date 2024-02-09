@@ -1,0 +1,498 @@
+ {% extends "base.html" %}
+ {% comment %} <style>
+   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+   * {
+     box-sizing: border-box;
+     padding: 0;
+     margin: 0;
+     font-family: 'Open Sans', sans-serif;
+   }
+
+   body {
+     line-height: 1.5;
+   }
+
+   .card-wrapper {
+     max-width: 1100px;
+     margin: 0 auto;
+   }
+
+   img {
+     width: 100%;
+     display: block;
+   }
+
+   .img-display {
+     overflow: hidden;
+   }
+
+   .img-showcase {
+     display: flex;
+     width: 100%;
+     transition: all 0.5s ease;
+   }
+
+   .img-showcase img {
+     min-width: 100%;
+   }
+
+   .img-select {
+     display: flex;
+   }
+
+   .img-item {
+     margin: 0.3rem;
+   }
+
+   .img-item:nth-child(1),
+   .img-item:nth-child(2),
+   .img-item:nth-child(3) {
+     margin-right: 0;
+   }
+
+   .img-item:hover {
+     opacity: 0.8;
+   }
+
+   .product-content {
+     padding: 2rem 1rem;
+   }
+
+   .product-title {
+     font-size: 1.5rem;
+     text-transform: capitalize;
+     font-weight: 700;
+     position: relative;
+     color: #12263a;
+     margin: 1rem 0;
+   }
+
+   .product-title::after {
+     content: "";
+     position: absolute;
+     left: 0;
+     bottom: 0;
+     height: 4px;
+     width: 80px;
+     background: #12263a;
+   }
+
+   .product-link {
+     text-decoration: none;
+     text-transform: uppercase;
+     font-weight: 400;
+     font-size: 0.9rem;
+     display: inline-block;
+     margin-bottom: 0.5rem;
+     background: #256eff;
+     color: #fff;
+     padding: 0 0.3rem;
+     transition: all 0.5s ease;
+   }
+
+   .product-link:hover {
+     opacity: 0.9;
+   }
+
+   .product-rating {
+     color: #ffc107;
+   }
+
+   .product-rating span {
+     font-weight: 600;
+     color: #252525;
+   }
+
+   .product-price {
+     margin: 1rem 0;
+     font-size: 1rem;
+     font-weight: 700;
+   }
+
+   .product-price span {
+     font-weight: 400;
+   }
+
+   .last-price span {
+     color: #f64749;
+     text-decoration: line-through;
+   }
+
+   .new-price span {
+     color: #256eff;
+   }
+
+   .product-detail h2 {
+     text-transform: capitalize;
+     color: #12263a;
+     padding-bottom: 0.6rem;
+   }
+
+   .product-detail p {
+     font-size: 0.9rem;
+     padding: 0.3rem;
+     opacity: 0.8;
+   }
+
+   .product-detail ul {
+     margin: 1rem 0;
+     font-size: 0.9rem;
+   }
+
+   .product-detail ul li {
+     margin: 0;
+     list-style: none;
+     background: url(shoes_images/checked.png) left center no-repeat;
+     background-size: 18px;
+     padding-left: 1.7rem;
+     margin: 0.4rem 0;
+     font-weight: 600;
+     opacity: 0.9;
+   }
+
+   .product-detail ul li span {
+     font-weight: 400;
+   }
+
+   .purchase-info {
+     margin: 1.5rem 0;
+   }
+
+   .purchase-info input,
+   .purchase-info .btn {
+     border: 1.5px solid #ddd;
+     border-radius: 25px;
+     text-align: center;
+     padding: 0.45rem 0.8rem;
+     outline: 0;
+     margin-right: 0.2rem;
+     margin-bottom: 1rem;
+   }
+
+   .purchase-info input {
+     width: 60px;
+   }
+
+   .purchase-info .btn {
+     cursor: pointer;
+     color: #fff;
+   }
+
+   .purchase-info .btn:first-of-type {
+     background: #256eff;
+   }
+
+   .purchase-info .btn:last-of-type {
+     background: #f64749;
+   }
+
+   .purchase-info .btn:hover {
+     opacity: 0.9;
+   }
+
+   .social-links {
+     display: flex;
+     align-items: center;
+   }
+
+   .social-links a {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 32px;
+     height: 32px;
+     color: #000;
+     border: 1px solid #000;
+     margin: 0 0.2rem;
+     border-radius: 50%;
+     text-decoration: none;
+     font-size: 0.8rem;
+     transition: all 0.5s ease;
+   }
+
+   .social-links a:hover {
+     background: #000;
+     border-color: transparent;
+     color: #fff;
+   }
+
+   @media screen and (min-width: 992px) {
+     .card {
+       display: grid;
+       grid-template-columns: repeat(2, 1fr);
+       grid-gap: 1.5rem;
+     }
+
+     .card-wrapper {
+       height: 100vh;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+     }
+
+     .product-imgs {
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+     }
+
+     .product-content {
+       padding-top: 0;
+     }
+   }
+
+   .nav-item.buttons button {
+     background: #B9C9D5;
+   }
+
+   .nav-item.buttons button:focus {
+     background: #046FB9;
+     color: white;
+   }
+ </style> {% endcomment %}
+ {% block content %}
+ <!-- Slick Carousel CSS -->
+ <link rel="stylesheet" type="text/css"
+   href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+ <link rel="stylesheet" type="text/css"
+   href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+ <!-- Custom CSS -->
+
+ <style>
+   .product-image {
+     max-width: 100%;
+   }
+
+   .slick-slide img {
+     width: 100%;
+   }
+
+   .thumbnail-image {
+     cursor: pointer;
+     padding:20px;
+     width: 50%;
+   }
+
+   .thumbnail-image img {
+     border: 5px solid transparent;
+     border-radius:100px; 
+     box-shadow:0px 0px 10px gray;
+   }
+
+   .thumbnail-image img.active { 
+   }
+
+   .thumbnail-slider {
+     margin-top: 10px; 
+   }
+
+   .nav-tabs .buttons {
+     padding: 0px 5px;
+   }
+
+   .nav-tabs .buttons button:focus {
+     background: #4E97A9;
+     color: white;
+     border: none;
+   }
+ </style>
+
+
+ <div class="container-fluid ">
+  <div class="row">
+    
+      <div class="col-md-3 py-2 bg-light offset-md-1" >
+          <div id="productSlider">
+              {% for i in p_variant_image %}
+              <div><img src="{{i.image.url}}" class="product-image"></div>
+              {% endfor %}
+              <!-- Add more images here as needed -->
+          </div>
+          <div class="col-sm-12  thumbnail-slider">
+              <div id="thumbnailSlider"> 
+                  {% for i in p_variant_image %}
+                  <div class="thumbnail-image"><img src="{{i.image.url}}" class="active"></div>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+      <div class="col-md-7 py-2 bg-light"  >
+          <h2>{{product.name}}</h2>
+          <div class="product-rating text-warning">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span>4.7(21)</span>
+          </div>
+          <p>{{product.product_details | safe}}</p>
+          <h6><strong style="font-size:1.3rem">Price: ₹{{product.price}}</strong> &nbsp; <span><del class="text-secondary">₹{{product.strikethrough}}</del></span>  <span id="off_percentage" class="text-success"></span></h6>
+           
+          <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <div class="input-group"  style="width:40%;">
+                  <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="minusBtn">-</button>
+                  </div>
+                  <input type="number" class="form-control" id="quantity" value="1" min="1">
+                  <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="plusBtn">+</button>
+                  </div>
+              </div>
+          </div>
+          <button type="button" class="btn btn-primary mr-2">Add to Cart</button>
+          <button type="button" class="btn btn-success">Buy Now</button>
+          <hr>
+      </div>
+  </div>
+</div>
+
+
+ <div class="container-fluid mt-2">
+   <div class="row">
+     <div class="col-sm-8">
+       <div class="card" style="width:100%; display: block; border:none;">
+         <div class="card-body" style="width:100%;">
+
+           <!-- Bordered Tabs Justified -->
+           <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist"
+             style="width:100%;">
+             <li class="nav-item flex-fill buttons" role="presentation">
+               <button class="nav-link w-100" id="home-tab" data-bs-toggle="tab"
+                 data-bs-target="#Description" type="button" role="tab" aria-controls="home"
+                 aria-selected="true" style="border:none;">Description</button>
+             </li>
+             <li class="nav-item flex-fill buttons" role="presentation">
+               <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                 data-bs-target="#shipping_and_return" type="button" role="tab" aria-controls="profile"
+                 aria-selected="false" style="border:none;">Shipping and Return Policy</button>
+             </li>
+             <li class="nav-item flex-fill buttons" role="presentation">
+               <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                 data-bs-target="#washing_instruction" type="button" role="tab" aria-controls="contact"
+                 aria-selected="false style=" border:none;"">Washing Instruction</button>
+             </li>
+             <li class="nav-item flex-fill buttons" role="presentation">
+               <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                 data-bs-target="#desclaimer" type="button" role="tab" aria-controls="contact"
+                 aria-selected="false" style="border:none;">Desclaimer</button>
+             </li>
+           </ul>
+           <div class="tab-content pt-2" id="description_tab">
+             <div class="tab-pane fade show active" id="Description" role="tabpanel"
+               aria-labelledby="home-tab">
+               {{product.description}}
+             </div>
+             <div class="tab-pane fade" id="shipping_and_return" role="tabpanel" aria-labelledby="profile-tab">
+               this is about shipping and return Policy
+             </div>
+             <div class="tab-pane fade" id="washing_instruction" role="tabpanel" aria-labelledby="contact-tab">
+              {{product.washing_instruction}}
+             </div>
+             <div class="tab-pane fade" id="desclaimer" role="tabpanel" aria-labelledby="contact-tab">
+               Desclaimer
+             </div>
+           </div><!-- End Bordered Tabs Justified -->
+
+         </div>
+       </div>
+     </div>
+
+     <div class="col-sm-4">
+       <h3>Similar Products</h3>
+       <div class="card">
+         <div class="row py-2">
+           <div class="col-md-3">
+             <img
+               src="https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630"
+               class="card-img" alt="Product Image" style="width:100%;">
+             <center>
+             </center>
+           </div>
+           <div class="col-md-9">
+             <div class="">
+               <h5 class="card-title">Product Name</h5>
+               <p class="card-text"><strong>Price: $19.99</strong></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <!-- Add more similar product cards here -->
+     </div>
+
+
+   </div>
+ </div>
+
+ <script>
+  // Get the product price and old price
+  var productPrice = {{ product.price }};
+  var oldPrice = {{ product.strikethrough }};
+
+  // Calculate the discount percentage
+  var discountPercentage = ((oldPrice - productPrice) / oldPrice) * 100;
+
+  // Display the discount percentage
+  document.getElementById("off_percentage").innerText = " (Save " + discountPercentage.toFixed(2) + "%)";
+</script>
+
+ <script>
+   document.addEventListener("DOMContentLoaded", function () {
+     const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
+
+     tabButtons.forEach(function (button) {
+       button.addEventListener("click", function () {
+         const targetPaneId = button.getAttribute("data-bs-target").slice(1);
+         const targetPane = document.getElementById(targetPaneId);
+
+         // Hide all tab panes
+         document.querySelectorAll(".tab-pane").forEach(function (pane) {
+           pane.classList.remove("show", "active");
+           pane.style.opacity = 0; // Set opacity to 0 to hide immediately
+         });
+
+         // Show the target tab pane with fade effect
+         targetPane.classList.add("show", "active");
+         targetPane.style.opacity = 0; // Set initial opacity to 0
+         setTimeout(() => {
+           targetPane.style.opacity = 1; // Smoothly transition opacity to 1
+         }, 50); // Adjust the delay to match the CSS transition duration
+       });
+     });
+   });
+ </script>
+
+ <!-- Bootstrap JS and dependencies -->
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <!-- Slick Carousel JS -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+ <script>
+   $(document).ready(function () {
+     $('#productSlider').slick({
+       slidesToShow: 1,
+       slidesToScroll: 1,
+       arrows: false,
+       fade: true,
+       asNavFor: '#thumbnailSlider'
+     });
+     $('#thumbnailSlider').slick({
+       slidesToShow: 3,
+       slidesToScroll: 1,
+       asNavFor: '#productSlider',
+       dots: false,
+       centerMode: true,
+       focusOnSelect: true
+     });
+
+     // Add class 'active' to clicked thumbnail image and remove from others
+     $('.thumbnail-image').click(function () {
+       $('.thumbnail-image img').removeClass('active');
+       $(this).find('img').addClass('active');
+     });
+   });
+ </script>
+ {% endblock content %}

@@ -1,0 +1,225 @@
+{% extends "admin_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<style>
+    #id_address {
+        height: 70px;
+    }
+
+
+    .student-info-container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .info-item {
+        margin-bottom: 10px;
+    }
+
+    .info-label {
+        font-weight: bold;
+        display: block;
+    }
+
+    .info-value {
+        width: 100%;
+        /* Ensure each info-value takes up the full width */
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Product Dashboard</h1>
+        <div class="row">
+            <div class="col">
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="container" style="max-width:97%;">
+                    <div class="text-lg-end text-start">
+                        <!-- Use text-lg-end for right alignment in large screens -->
+                        <a href="{% url "update_product" id %}" class="btn btn-primary"> Update Product</a>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#add_variant">Add
+                            Variant</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+
+    <div class="modal fade" id="add_variant" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:1000px;">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-primary text-light ">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Variant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="add_variant_form" action="{% url "variant_creation_form" %}"
+                        enctype='multipart/form-data'>
+                        <div class="row">
+
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    {{variant_form.name|as_crispy_field}}
+                                </div> 
+                                <div class="col-sm-12">
+                                    {{variant_form.image|as_crispy_field}}
+                                </div>
+                                <input type="hidden" name="product_id" id="product_id" value="{{id}}">
+                            </div>
+                        </div>
+                        <center>
+                            <input type="submit" id="btnCreateSubmit" value="Create Variant"
+                                class="btn bg-gradient-primary text-light"></input>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div style="padding:1%">
+
+                    <div class="container">
+                        {% if product_data %}
+                        <div class="row">
+
+                            <div class="col-md-6 mb-1">
+                                <div class="student-info-container">
+                                    <div class="info-item">
+                                        <span class="info-label">Name:</span>
+                                        <span class="info-value">{{ product_data.name }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Price:</span>
+                                        <span class="info-value">{{ product_data.price }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Strikethrough Price:</span>
+                                        <span class="info-value"><del>{{ product_data.strikethrough }}</del></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Product Details:</span>
+                                        <span class="info-value">{{ product_data.product_details | safe }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Description:</span>
+                                        <span class="info-value">{{ product_data.description | safe }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Washing Instruction:</span>
+                                        <span class="info-value">{{ product_data.washing_instruction | safe }}</span>
+                                    </div>
+                                    <!-- Add more info items as needed -->
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <div class="student-info-container text-center">
+
+                                    <img src="{{product_data.image.url}}" alt="" style="width:200px;">
+                                    <!-- Add more info items as needed -->
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- Left side columns -->
+                    <div>
+                        <div class="" style="overflow:scroll;">
+                            <table id="example" class="table table-striped"
+                                style="overflow:scroll;  width:100%; min-width: max-content;">
+                                <thead>
+                                    <tr style="background:#02B4C3;">
+                                        <th scope="col" class="text-center text-white" style="">Sr.No</th>
+                                        <th scope="col" class="text-center text-white" style="">Product Name</th>
+                                        <th scope="col" class="text-center text-white" style="">Image</th>
+                                        <th scope="col" class="text-center text-white" style="">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if product_variant_data %}
+                                    {% for r in product_variant_data %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{r.name}}</td>
+                                        {% if i.image %}
+                                        <td>----</td>
+                                        {% else %}
+                                        <td><img src="{{r.image.url}}" alt="" style="height:80px;width:auto;"></td>
+                                        {% endif %}
+                                        <td>
+                                            <center>
+                                                <a href="{% url "delete_variant" r.id %}" class="btn btn-danger px-3">Delete</a>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div><!-- End Left side columns -->
+
+
+            </div>
+        </div><!-- End Left side columns -->
+
+    </section>
+
+    <!-- Add DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                "pageLength": 10, // Number of records per page
+                "ordering": true, // Enable sorting
+                "searching": true // Enable searching
+                // More options can be added here
+            });
+        });
+    </script>
+    </script>
+
+    <script>
+        // Get the element by its id
+        var myInput = document.getElementById("career_list");
+        // Add a class to the element
+        myInput.classList.add("active");
+    </script>
+
+</main><!-- End #main -->
+
+{% endblock content %}
