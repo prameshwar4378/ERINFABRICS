@@ -11,6 +11,7 @@ def admin_login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
+            print("SUccess@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successful.')
