@@ -125,6 +125,8 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+ 
+
 import os
 
 STATIC_URL = 'static/'

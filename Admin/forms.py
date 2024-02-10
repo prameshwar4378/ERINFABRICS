@@ -2,7 +2,9 @@ from django import forms
 from .models import *
 from django.core.exceptions import ValidationError  
 from ckeditor.widgets import CKEditorWidget
- 
+from django.contrib.auth.forms import UserCreationForm
+
+
 class ProductCreationForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -33,6 +35,24 @@ class VariantCreationForm(forms.ModelForm):
     class Meta:
         model = ProductVariant
         fields = ('name','image') 
+
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    address = forms.CharField(required=True)
+    pin_code = forms.CharField(required=True)
+    phone_number = forms.CharField(required=True)
+    full_name = forms.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = [ 'full_name','phone_number','address', 'pin_code', 'email', 'password1', 'password2',  ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in ['password1', 'password2']:
+            self.fields[field_name].help_text = None
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)

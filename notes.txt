@@ -1,0 +1,12 @@
+Git fetch
+git branch
+git checkout branch_name
+
+git add .
+git commit -m "commit name"
+git push origin branch_name
+
+
+Cart.html
+getting value from server    //success
+set value to the html content    //fail      Line no : 169

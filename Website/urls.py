@@ -22,4 +22,8 @@ from Website.views import *
 urlpatterns = [
     path('', index),
     path('product_details/<int:id>', product_details,name="product_details"),
+    path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
+    path('cart/', cart, name='cart'),
+    path('update_cart_item/', update_cart_item, name='update_cart_item'),
+    path('delete_item_from_cart/<int:id>', delete_item_from_cart, name='delete_item_from_cart'),
 ] 

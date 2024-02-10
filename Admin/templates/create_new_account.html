@@ -40,6 +40,7 @@
     }
 
     input[type="text"],
+    input[type="email"],
     input[type="password"],
     input[type="submit"] {
         width: calc(100% - 40px);
@@ -66,18 +67,27 @@
             max-width: 300px;
         }
     }
+    {% comment %} #id_username{
+        display:none;
+    }
+
+    label[for="id_username"] {
+        display: none;
+    } {% endcomment %}
 </style>
 </head>
 <body>
 <div class="container">
     <div class="user-image">
    
-        <center><h1>Login</h1></center>
+        <center><h1>Create New Account</h1></center>
     </div>
     <form method="POST"> {% csrf_token %}
-         {{form|crispy}}
-        <input type="submit" value="Login">
+        {{form|crispy}}
+        <input type="submit" value="Create Account">
     </form>
+    <hr>
+
 </div>
 
 

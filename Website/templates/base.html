@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>Erinfabrics - Title Rameshwar </title>
+	<title>Erinfabrics </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -52,6 +52,16 @@
 			margin-right: -2%;
 			margin-left: -2%;
 		}
+	}
+	.card_item_count{
+		background:red;
+		padding:2px 7px;
+		border-radius:50%;
+		font-size:0.9rem;
+		position: relative;
+		left:-10px;
+		top:-10px;
+		 
 	}
 </style>
 
@@ -202,9 +212,8 @@
 				</div>
 				<!-- menu end here -->
 				<div class="header-item item-right">
-					<a href="#"><i class="fas fa-search"></i></a>
-					<a href="#"><i class="far fa-heart"></i></a>
-					<a href="#"><i class="fas fa-shopping-cart"></i></a>
+					<a href="{% url "cart" %}"><i class="fas fa-shopping-cart"></i> <span class="card_item_count">{{request.user.userprofile.total_products_in_cart }}</span></a>
+					<a href="" style="margin-left:-5px;"><i class="fas fa-user"></i></a>
 					<!-- mobile menu trigger -->
 					<div class="mobile-menu-trigger">
 						<span></span>

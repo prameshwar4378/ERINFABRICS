@@ -13,6 +13,9 @@
         /* Add box shadow for better visibility */
     }
 </style>
+<!-- body containt start here -->
+<!-- This is rameshwar -->
+<!-- this is krishna -->
 <a class="btn btn-info mx-3 px-3"  data-toggle="modal" data-target="#filter_products"><i class="bi bi-funnel"></i> Filter</a>
 
 <div class="modal fade" id="filter_products" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -139,86 +142,7 @@
         {% endfor %}
     </div>
 </div>
-
-<div class="container-fluid custom-container mt-3">
-    <div class="d-flex justify-content-between ">
-        <h4 class="text-primary"><b>Category Title</b></h4>
-        <h4><a href=""><i class="bi bi-arrow-right-circle-fill"></i></a> &nbsp;&nbsp;&nbsp;</h4>
-    </div>
-    <hr style="margin:0px;">
-    <div class="row">
-        <!-- Card 1 -->
-        <hr><br>
-        {% for product in products %}
-        <div class="col-md-2 mb-2 mt-2">
-            <div class="card shopping-card">
-                <a href="{% url "product_details" product.id %}">
-                    <img src="{{ product.image.url }}" style="width:100%;" class="card-img-top" alt="Product 1 Image">
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bold">{{ product.name }}</h5>
-                    <p class="card-text">
-                        <span class="price">₹{{ product.price }}</span>
-                        {% if product.strikethrough %} <br>
-                        <del class="strickthrough">₹{{ product.strikethrough }}</del>
-                        <span class="discount" id="discount_{{ product.id }}">Discount calculating...</span>
-                        <script>
-                            // Calculate discount using JavaScript
-                            var salePrice_ {
-                                {
-                                    product.id
-                                }
-                            } = {
-                                {
-                                    product.price
-                                }
-                            };
-                            var originalPrice_ {
-                                {
-                                    product.id
-                                }
-                            } = {
-                                {
-                                    product.strikethrough
-                                }
-                            };
-                            var discount_ {
-                                {
-                                    product.id
-                                }
-                            } = ((originalPrice_ {
-                                {
-                                    product.id
-                                }
-                            } - salePrice_ {
-                                {
-                                    product.id
-                                }
-                            }) / originalPrice_ {
-                                {
-                                    product.id
-                                }
-                            }) * 100;
-
-                            // Update the discount span with the calculated value
-                            document.getElementById('discount_{{ product.id }}').innerText = discount_ {
-                                {
-                                    product.id
-                                }
-                            }.toFixed(2) + '% Off';
-                        </script>
-                        {% endif %}
-                        <center>
-                            <a href="#" class="btn btn-primary btn-sm">Add to Cart</a>
-                        </center>
-                    </p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
+ 
 
 <script>
     const priceRange = document.getElementById('priceRange');

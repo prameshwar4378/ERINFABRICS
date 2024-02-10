@@ -24,7 +24,10 @@ from Admin import views as AdminViews
 
 urlpatterns = [
     # path('login/', admin.site.urls),
-    path('login/', AdminViews.admin_login),
+    # path('login/', AdminViews.admin_login),
+    path('create_new_account/', AdminViews.create_new_account, name='create_new_account'),
+    path('login/', AdminViews.login, name='login'),
+
     path('logout/', AdminViews.admin_logout),
     path('', include(WebUrls)),
     path('admin/', include(AdminUrls)),

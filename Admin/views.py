@@ -3,15 +3,20 @@ from .forms import *
 from django.contrib import messages
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.db import IntegrityError
+
 
 def admin_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
+            print("this is test 123")
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            print("SUccess@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            user = authenticate(request, username=username, password=password) 
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successful.')
@@ -23,12 +28,61 @@ def admin_login(request):
     return render(request, 'admin_login.html', {'form': form})
 
 
+def create_new_account(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        address = request.POST.get('address')
+        pin_code = request.POST.get('pin_code')
+        phone_number = request.POST.get('phone_number')
+        try:
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.username = phone_number
+                user.save()
+                # Create UserProfile associated with the created user
+                UserProfile.objects.create(user=user, address=address, pin_code=pin_code, phone_number=phone_number)
+                # Log in the user
+                login(request, user)
+                messages.success(request, "Account created successfully.")
+                return redirect('/')  # Change 'home' to your home page URL name
+            else:
+                messages.error(request, "Failed to create account. Please check the provided information.")
+        except IntegrityError as e:
+            if 'UNIQUE constraint failed: auth_user.username' in str(e):
+                messages.error(request, "Mobile number already exists. Please try to login.")
+            else:
+                messages.error(request, f"An error occurred: {str(e)}")
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'create_new_account.html', {'form': form})
+
+
+def login_account(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, "Login successful.")
+                return redirect('/')  # Change 'home' to your home page URL name
+            else:
+                messages.error(request, "Invalid username or password.")
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+    return render(request, 'login_account.html')
+
+
 def admin_logout(request):
     logout(request)
     return redirect('/login')
+ 
 
 
-  
+
+
+
 def product_list(request):
     form = ProductCreationForm()
     products = Product.objects.all().select_related()  # Fetch all products
