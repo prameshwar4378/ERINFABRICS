@@ -3,6 +3,10 @@
 from django.db import models
 from django.contrib.auth.models import User 
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.db.models import Sum
+
+
 class Product(models.Model):
     p_code = models.CharField(max_length=50,null=True)
     name = models.CharField(max_length=255)
@@ -34,20 +38,43 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order #{self.id} - {self.user.username}"
-
-
-class CartItem(models.Model):
-    product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-
-    def __str__(self):
-        return f"{self.quantity} x {self.product_variant.product.name} - {self.product_variant.color}"
-
+ 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.TextField()
+    address = models.TextField(null=True)
+    pin_code = models.CharField(max_length=20,null=True)
     phone_number = models.CharField(max_length=20)
 
     def __str__(self):
         return self.user.username
+
+    @property
+    def total_products_in_cart(self):
+        try:
+            cart = Cart.objects.get(user=self.user)
+            return cart.cartitem_set.count()
+        except Cart.DoesNotExist:
+            return 0
+        
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+
+    def __str__(self):
+        return f"Cart #{self.id} - {self.user.username}"
+
+    def total_price(self):
+        return self.cartitem_set.aggregate(total_price=Sum('product__price'))['total_price'] or 0
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+    quantity = models.IntegerField(default=1,null=True)
+
+    def __str__(self):
+        return f"{self.cart} - {self.product.name} - Quantity: {self.quantity}"
+
