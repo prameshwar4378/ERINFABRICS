@@ -4,7 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Page</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<title>New Registration</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -23,7 +25,7 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         text-align: left;
-        max-width: 400px;
+        max-width: 800px;
         width: 100%;
     }
 
@@ -83,7 +85,29 @@
         <center><h1>Create New Account</h1></center>
     </div>
     <form method="POST"> {% csrf_token %}
-        {{form|crispy}}
+        <div class="row">
+            <div class="col-sm-6">
+                {{form.full_name|as_crispy_field}}
+            </div>
+            <div class="col-sm-6">
+                {{form.phone_number|as_crispy_field}}
+            </div>
+            <div class="col-sm-6">
+                {{form.email|as_crispy_field}}
+            </div>
+            <div class="col-sm-6">
+                {{form.pin_code|as_crispy_field}}
+            </div>
+            <div class="col-sm-12">
+                {{form.address|as_crispy_field}}
+            </div> 
+            <div class="col-sm-6">
+                {{form.password1|as_crispy_field}}
+            </div>
+            <div class="col-sm-6">
+                {{form.password2|as_crispy_field}}
+            </div>
+        </div>
         <input type="submit" value="Create Account">
     </form>
     <hr>

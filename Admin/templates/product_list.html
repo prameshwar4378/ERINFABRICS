@@ -119,7 +119,7 @@
                                     <tr>
                                         <td>{{forloop.counter}}</td>
                                         <td>{{r.p_code}}</td>
-                                        <td>{{r.name}}</td>
+                                        <td>{{r.name|slice:40}} ...</td>
                                         <td>{{r.price}}</td>
                                         <td class="text-center"><img src="{{r.image.url}}" alt="" style="height:50px;">
                                         </td>

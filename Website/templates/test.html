@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+</head>
+<body>
+    <h1>Scan the QR code or use one of the following payment methods</h1>
+    <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code">
+    <button onclick="payWithPhonePe()">Pay with PhonePe</button>
+    <button onclick="payWithGooglePay()">Pay with Google Pay</button>
+
+    <script>
+        function payWithPhonePe() {
+            // Add logic to initiate payment with PhonePe
+            alert('Redirecting to PhonePe...');
+            const phonePePaymentUrl = `https://payment.phonepe.com/v3/payment?orderId=${orderId}&amount=${totalAmount}&source=cart_payment`;
+            window.location.href = phonePePaymentUrl;
+        }
+
+        function payWithGooglePay() {
+            // Add logic to initiate payment with Google Pay
+            alert('Redirecting to Google Pay...');
+        }
+    </script>
+</body>
+</html>

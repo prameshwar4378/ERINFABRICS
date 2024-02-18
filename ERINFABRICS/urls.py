@@ -26,9 +26,9 @@ urlpatterns = [
     # path('login/', admin.site.urls),
     # path('login/', AdminViews.admin_login),
     path('create_new_account/', AdminViews.create_new_account, name='create_new_account'),
-    path('login/', AdminViews.login, name='login'),
+    path('login/', AdminViews.login_account, name='login_account'),
 
-    path('logout/', AdminViews.admin_logout),
+    path('logout/', AdminViews.logout, name="logout"),
     path('', include(WebUrls)),
     path('admin/', include(AdminUrls)),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
