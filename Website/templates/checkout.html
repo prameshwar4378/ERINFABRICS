@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="h-100 h-custom" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <h5 class="mb-3"><a href="{% url "cart" %}" class="text-body"><i
+                                            class="fas fa-long-arrow-alt-left me-2"></i> Back</a></h5>
+                                <hr>
+                                {% if products %}
+                                {% for i in products %}
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Left side with image -->
+                                            <div class="col-sm-3">
+                                                <img src="{{i.product.image.url}}" class="img-fluid rounded-3"
+                                                    alt="Shopping item">
+                                            </div>
+                                            <!-- Middle side with product name, quantity, and price -->
+                                            <div class="col-sm-9 d-flex align-items-center">
+                                                <div>
+                                                    <h5 class="mt-2">{{i.product.name}}</h5>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <p class="mt-2">Quantity: <b>{{i.quantity}}</b></p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <p class="mt-2">Price: <b>₹{{i.product.price}}</b></p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <p class="mt-2">Total : <b>₹{{grand_total_amount}}</b></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            <br>
+                            <div class="col-sm-12">
+                                <div class="card px-2 rounded-3">
+                                    <div class="card-body ">
+                                        <div class="row alert alert-primary">
+                                            <div class="col-sm-8">
+                                                <p>Name : <b>{{user_details.user.first_name}}</b></p>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <p>Mobile : <b>{{user_details.phone_number}}</b></p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p>Address : <b>{{user_details.address}}</b></p>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <p>Pin Code : <b>{{user_details.pin_code}}</b></p>
+                                            </div>
+                                            <center>
+                                                <hr style="width:100%">
+                                            </center>
+                                            <center>
+                                                <a data-toggle="modal" data-target="#update_profile"
+                                                    class="btn btn-primary">Update Details</a>
+                                            </center>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <br>
+                                    {% if products %}
+                                    <center>
+                                        <div class="col-lg-4">
+                                            <div class="card bg-secondary text-white rounded-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                                        <h5 class="mb-0">Amount details</h5>
+                                                    </div>
+                                                    <hr class="my-4">
+
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="mb-2">Subtotal</p>
+                                                        <p class="mb-2">₹<span
+                                                                id="subtotal">{{grand_total_amount}}</span></p>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="mb-2">Shipping</p>
+                                                        <p class="mb-2">₹0</p>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-between mb-4">
+                                                        <p class="mb-2">Total(Incl. taxes)</p>
+                                                        <p class="mb-2">₹<span
+                                                                id="total_include_tax">{{grand_total_amount}}</span></p>
+                                                    </div>
+
+                                                    <a href="{% url "create_order" %}" class="btn btn-info btn-block btn-lg">
+                                                        <div class="d-flex justify-content-between">
+                                                            ₹<span id="id_checkout_amount"
+                                                                class="text-left">{{grand_total_amount}}</span>
+                                                            <span>Place Order <i
+                                                                    class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                        </div>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </center>
+                                    {% else %}
+                                    <center>
+                                        <h1></h1>
+                                    </center>
+                                    {% endif %}
+
+                                </div>
+
+                                {% if not products %}
+                                <center>
+                                    <h3>Cart is Empty</h3>
+                                </center>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
+
+
+
+<div class="modal fade" id="update_profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:1000px;">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary text-light">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Delivery Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "update_profile_from_checkout" %}" method="post">{% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" value="{{user_details.user.first_name}}" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <input type="text" class="form-control" id="phone_number"  name="phone_number" value="{{user_details.phone_number}}" placeholder="Enter your mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter your address">{{ user_details.address }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pin_code">Pin Code</label>
+                        <input type="text" class="form-control" id="pin_code" name="pin_code" value="{{user_details.pin_code}}" placeholder="Enter your pin code">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary"></input>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Vendor JS Files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"> </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+</script>
+
+
+
+{% endblock content %}

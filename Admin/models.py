@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db.models import Sum
-
+import uuid
 
 class Product(models.Model):
     p_code = models.CharField(max_length=50,null=True)
@@ -29,16 +29,47 @@ class ProductVariant(models.Model):
     def __str__(self):
         return f"{self.product.name} - {self.color}"
 
+ORDER_STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Accepted by Admin', 'Accepted by Admin'),
+        ('Regected by Admin', 'Regected by Admin'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Regected by Customer', 'Regected by Customer'),
+    )
 
 class Order(models.Model):
+    order_id = models.CharField(max_length=250, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField('CartItem')
+    products = models.ManyToManyField(Product, through='OrderItem')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=100, choices=ORDER_STATUS_CHOICES, default='Pending')
+    order_notes = models.CharField(max_length=250, null=True)
+    order_date = models.DateTimeField(auto_now_add=True)
+    shipped_date = models.DateTimeField(null=True)
+    delivery_date = models.DateTimeField(null=True)
+    payment_mode = models.CharField(max_length=30, null=True)
+    is_paid = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.order_id:
+            self.order_id = str(uuid.uuid4().hex[:10].upper())
+        super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Order #{self.id} - {self.user.username}"
- 
+        return f"Order #{self.order_id} - {self.user.username}"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.order.order_id} - {self.product.name} - Quantity: {self.quantity}"
+
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

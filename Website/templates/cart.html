@@ -9,7 +9,7 @@
                         <div class="row">
 
                             <div class="col-lg-8">
-                                <h5 class="mb-3"><a href="#!" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i> Continue shopping</a></h5>
+                                <h5 class="mb-3"><a href="{% url "index" %}" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i> Continue shopping</a></h5>
                                 <hr>
                                 {% if products %}
                                     {% for i in products %}
@@ -32,7 +32,7 @@
                                                                     <input type="text" class="form-control quantity-input" name="txt_qty"
                                                                         placeholder="Quantity" aria-label="Quantity" value="{{i.quantity}}"
                                                                         data-cart-item-id="{{ i.id }}" data-product-price="{{i.product.price}}"
-                                                                        data-product-id="{{i.product.id}}">
+                                                                        data-product-id="{{i.product.id}}" readonly>
                                                                     <button class="btn btn-outline-secondary btn-plus" type="button">+</button>
                                                                 </div>
                                                             </div>
@@ -76,7 +76,7 @@
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Subtotal</p>
-                                            <p class="mb-2">₹<span id=""></span></p>
+                                            <p class="mb-2">₹<span id="subtotal">{{grand_total_amount}}</span></p>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
@@ -86,15 +86,15 @@
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Total(Incl. taxes)</p>
-                                            <p class="mb-2">₹<span id="total_include_tax"></span></p>
+                                            <p class="mb-2">₹<span id="total_include_tax">{{grand_total_amount}}</span></p>
                                         </div>
 
-                                        <button type="button" class="btn btn-info btn-block btn-lg">
+                                        <a href="{% url "checkout" %}" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
-                                                ₹<span ></span>
+                                                ₹<span id="id_checkout_amount" class="text-left">{{grand_total_amount}}</span>
                                                 <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                             </div>
-                                        </button>
+                                        </a>
 
                                     </div>
                                 </div>
@@ -107,12 +107,7 @@
                             {% endif %}
 
                         </div>
-
-                        {% if not products %}
-                        <center>
-                            <h3>Cart is Empty</h3>
-                        </center>
-                        {% endif %}
+   
 
                     </div>
                 </div>
@@ -142,9 +137,10 @@
             const cartProductPrice = quantityInput.data('product-price');
             const cartProductId = quantityInput.data('product-id');
             // Update the cart item via AJAX
+
             updateCartItem(cartItemId, cartProductId, quantity, cartProductPrice);
         });
-
+        
         function updateCartItem(cartItemId, cartProductId, quantity, cartProductPrice) {
             // Get the CSRF token
             const csrftoken = getCookie('csrftoken');
@@ -164,10 +160,15 @@
                     // Update subtotal on the page
                     const itemTotalAmountSpan = document.getElementById('item_total_amount_' + cartProductId);
                     itemTotalAmountSpan.textContent = (cartProductPrice * quantity).toFixed(2);
-                    // Update grand total on the page
+                    // Update grand total on the page total_include_tax
+                    total_amount=data.grand_total
+
                     const grandTotalAmountSpan = document.getElementById('total_include_tax');
-                    grandTotalAmountSpan.textContent = "₹" + data.grand_total.toFixed(2); 
-                    // Assuming grand_total is a number received from the server
+                    grandTotalAmountSpan.textContent = total_amount; 
+                    const Total_AmountSpan = document.getElementById('subtotal');
+                    Total_AmountSpan.textContent = total_amount; 
+                    const CheckoutAmountSpan = document.getElementById('id_checkout_amount');
+                    CheckoutAmountSpan.textContent = total_amount; 
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
