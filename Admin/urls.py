@@ -12,6 +12,12 @@ urlpatterns = [
     path('delete_product/<int:id>', delete_product,name="delete_product"),
     path('delete_variant/<int:id>', delete_variant,name="delete_variant"),
     path('update_product/<int:id>', update_product,name="update_product"),
+
+    path('order_list/', order_list,name="order_list"),
+    path('order_dashboard/<int:id>', order_dashboard,name="order_dashboard"),
+    path('update_order_status/', update_order_status,name="update_order_status"),
+    path('delete_order/<int:id>', delete_order, name="delete_order"),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

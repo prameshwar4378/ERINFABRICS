@@ -9,7 +9,7 @@
                         <div class="row">
 
                             <div class="col-lg-8">
-                                <h5 class="mb-3"><a href="#!" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i> Continue shopping</a></h5>
+                                <h5 class="mb-3"><a href="{% url "index" %}" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i> Continue shopping</a></h5>
                                 <hr>
                                 {% if products %}
                                     {% for i in products %}
@@ -89,12 +89,12 @@
                                             <p class="mb-2">₹<span id="total_include_tax">{{grand_total_amount}}</span></p>
                                         </div>
 
-                                        <button type="button" class="btn btn-info btn-block btn-lg">
+                                        <a href="{% url "checkout" %}" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
                                                 ₹<span id="id_checkout_amount" class="text-left">{{grand_total_amount}}</span>
                                                 <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                             </div>
-                                        </button>
+                                        </a>
 
                                     </div>
                                 </div>
@@ -107,12 +107,7 @@
                             {% endif %}
 
                         </div>
-
-                        {% if not products %}
-                        <center>
-                            <h3>Cart is Empty</h3>
-                        </center>
-                        {% endif %}
+   
 
                     </div>
                 </div>
@@ -142,9 +137,10 @@
             const cartProductPrice = quantityInput.data('product-price');
             const cartProductId = quantityInput.data('product-id');
             // Update the cart item via AJAX
+
             updateCartItem(cartItemId, cartProductId, quantity, cartProductPrice);
         });
-
+        
         function updateCartItem(cartItemId, cartProductId, quantity, cartProductPrice) {
             // Get the CSRF token
             const csrftoken = getCookie('csrftoken');

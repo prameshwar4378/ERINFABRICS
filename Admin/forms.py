@@ -35,7 +35,7 @@ class VariantCreationForm(forms.ModelForm):
     class Meta:
         model = ProductVariant
         fields = ('name','image') 
-
+ 
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -53,6 +53,11 @@ class CustomUserCreationForm(UserCreationForm):
         for field_name in ['password1', 'password2']:
             self.fields[field_name].help_text = None
 
+class Update_Order_Status(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('status',) 
+ 
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)

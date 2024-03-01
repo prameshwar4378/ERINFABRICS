@@ -28,7 +28,6 @@ urlpatterns = [
     path('create_new_account/', AdminViews.create_new_account, name='create_new_account'),
     path('login/', AdminViews.login_account, name='login_account'),
     path("accounts/", include("allauth.urls")), # new
-
     path('logout/', AdminViews.logout, name="logout"),
     path('', include(WebUrls)),
     path('admin/', include(AdminUrls)),
