@@ -73,7 +73,7 @@
 			<div class="row v-center">
 				<div class="header-item item-left">
 					<div class="logo">
-						<a href="#">Erinfabrics</a>
+						<a href="{% url "index" %}">Erinfabrics</a>
 					</div>
 				</div>
 				<!-- menu start here -->
@@ -214,7 +214,7 @@
 				<div class="header-item item-right">
 					<a href="{% url "cart" %}"><i class="fas fa-shopping-cart"></i> <span class="card_item_count">{{request.user.userprofile.total_products_in_cart }}</span></a>
 					<a href="" style="margin-left:-5px;"><i class="fas fa-user"></i></a>
-					<!-- mobile menu trigger -->
+					<a href="{% url "logout" %}" style=""><i class="fas fa-lock"></i>{{request.user.username }}</a>
 					<div class="mobile-menu-trigger">
 						<span></span>
 					</div>

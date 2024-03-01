@@ -3,6 +3,10 @@ from Admin.models import *
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import F, ExpressionWrapper, Sum, DecimalField
+from django.contrib.auth.decorators import login_required
+
+def test(request):
+    return render(request,'test.html')
 
 # Create your views here.
 def index(request):
@@ -26,17 +30,21 @@ def product_details(request,id):
 
 from django.core.exceptions import ObjectDoesNotExist
 
+@login_required
 def cart(request):
     try:
         cart = Cart.objects.get(user=request.user)
         products = CartItem.objects.filter(cart=cart.id)
+        grand_total_amount = CartItem.objects.filter(cart__user=request.user).aggregate(
+                total=Sum(F('product__price') * F('quantity'), output_field=DecimalField())
+            )['total']
 
     except ObjectDoesNotExist:
         cart = None
         products = None
-    return render(request, 'cart.html', {'products': products})
+    return render(request, 'cart.html', {'products': products,'grand_total_amount':grand_total_amount})
 
-
+@login_required
 def add_to_cart(request, product_id):
     user = request.user
     print(user)
@@ -47,8 +55,9 @@ def add_to_cart(request, product_id):
         cart_item.quantity += 1
         cart_item.save()
         messages.success(request,'Item added in cart')
-    return redirect('/')
+    return redirect(f'/product_details/{product_id}')
  
+@login_required
 def update_cart_item(request):
     if request.method == 'POST':
         cart_item_id = request.POST.get('cart_item_id')
@@ -67,6 +76,7 @@ def update_cart_item(request):
             return JsonResponse({'error': 'Cart item does not exist.'}, status=400)
     return JsonResponse({'error': 'Invalid request.'}, status=400)
 
+@login_required
 def delete_item_from_cart(request, id):
     try: 
         cart_item = get_object_or_404(CartItem, id=id, cart__user=request.user)

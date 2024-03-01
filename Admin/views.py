@@ -2,18 +2,17 @@ from django.shortcuts import render,redirect,get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login,logout as django_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
-
+from django.contrib.auth.decorators import login_required
 
 def admin_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        if form.is_valid():
-            print("this is test 123")
+        if form.is_valid(): 
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password) 
@@ -59,30 +58,30 @@ def create_new_account(request):
 
 def login_account(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        try:
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, "Login successful.")
-                return redirect('/')  # Change 'home' to your home page URL name
+                # Redirect to a success page
+                return redirect('/')
             else:
-                messages.error(request, "Invalid username or password.")
-        except Exception as e:
-            messages.error(request, f"An error occurred: {str(e)}")
-    return render(request, 'login_account.html')
+                # Return an 'invalid login' error message
+                return render(request, 'login_account.html', {'form': form, 'error_message': 'Invalid username or password.'})
+    else:
+        form = LoginForm()
+    return render(request, 'login_account.html', {'form': form})
 
 
-def admin_logout(request):
-    logout(request)
+def logout(request):
+    django_logout(request)
     return redirect('/login')
- 
 
 
 
-
-
+@login_required
 def product_list(request):
     form = ProductCreationForm()
     products = Product.objects.all().select_related()  # Fetch all products
@@ -92,6 +91,7 @@ def product_list(request):
     }
     return render(request, "product_list.html", context)
     
+@login_required
 def product_creation_form(request):
     try: 
         if request.method == 'POST':
@@ -110,6 +110,7 @@ def product_creation_form(request):
         messages.error(request, f'An error occurred: {str(e)}')
         return render(request, '404.html', {'error_message': str(e)}, status=500)
 
+@login_required
 def delete_product(request,id):
         pi=Product.objects.get(pk=id)
         pi.delete()
@@ -117,6 +118,7 @@ def delete_product(request,id):
         return redirect('/admin/product_list')
 
     
+@login_required
 def update_product(request, id):
     # try:
         product_instance = get_object_or_404(Product, id=id)
@@ -136,6 +138,7 @@ def update_product(request, id):
     #     return render(request, '404.html')
 
 
+@login_required
 def product_dashboard(request,id):
     product_data = get_object_or_404(Product, id=id) 
     product_variant_data=ProductVariant.objects.filter(product=product_data).select_related()
@@ -150,6 +153,7 @@ def product_dashboard(request,id):
 
 
 
+@login_required
 def variant_creation_form(request):
     # try: 
         if request.method == 'POST':
@@ -175,6 +179,7 @@ def variant_creation_form(request):
 
 
 
+@login_required
 def delete_variant(request,id):
         pi=ProductVariant.objects.get(pk=id)
         id=pi.product.id

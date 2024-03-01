@@ -23,12 +23,13 @@ from Admin import urls as AdminUrls
 from Admin import views as AdminViews
 
 urlpatterns = [
-    # path('login/', admin.site.urls),
+    path('django-admin/', admin.site.urls),
     # path('login/', AdminViews.admin_login),
     path('create_new_account/', AdminViews.create_new_account, name='create_new_account'),
-    path('login/', AdminViews.login, name='login'),
+    path('login/', AdminViews.login_account, name='login_account'),
+    path("accounts/", include("allauth.urls")), # new
 
-    path('logout/', AdminViews.admin_logout),
+    path('logout/', AdminViews.logout, name="logout"),
     path('', include(WebUrls)),
     path('admin/', include(AdminUrls)),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

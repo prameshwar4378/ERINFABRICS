@@ -8,7 +8,7 @@ from django.db.models import Sum
 
 
 class Product(models.Model):
-    p_code = models.CharField(max_length=50,null=True)
+    p_code = models.CharField(max_length=50, null=True, db_index=True)
     name = models.CharField(max_length=255)
     product_details = RichTextField(null=True)
     description = models.TextField(null=True)
