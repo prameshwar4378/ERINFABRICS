@@ -132,12 +132,15 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+<<<<<<< HEAD
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 CCOUNT_EMAIL_VERIFICATION = 'none'
+=======
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
 LOGIN_URL='/login'
 
 import os

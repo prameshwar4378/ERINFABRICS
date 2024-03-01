@@ -33,17 +33,25 @@ def create_new_account(request):
         address = request.POST.get('address')
         pin_code = request.POST.get('pin_code')
         phone_number = request.POST.get('phone_number')
+        full_name = request.POST.get('full_name')
         try:
             if form.is_valid():
                 user = form.save(commit=False)
                 user.username = phone_number
+                user.first_name = full_name
                 user.save()
                 # Create UserProfile associated with the created user
                 UserProfile.objects.create(user=user, address=address, pin_code=pin_code, phone_number=phone_number)
                 # Log in the user
                 login(request, user)
                 messages.success(request, "Account created successfully.")
-                return redirect('/')  # Change 'home' to your home page URL name
+
+                interested_product_id_login=request.session.get('interested_product_id_login')
+                if interested_product_id_login:
+                    del request.session['interested_product_id_login']
+                    return redirect(f'/product_details/{interested_product_id_login}')
+                else:
+                    return redirect('/')
             else:
                 messages.error(request, "Failed to create account. Please check the provided information.")
         except IntegrityError as e:
@@ -66,7 +74,16 @@ def login_account(request):
             if user is not None:
                 login(request, user)
                 # Redirect to a success page
+<<<<<<< HEAD
                 return redirect('/')
+=======
+                interested_product_id_login=request.session.get('interested_product_id_login')
+                if interested_product_id_login:
+                    del request.session['interested_product_id_login']
+                    return redirect(f'/product_details/{interested_product_id_login}')
+                else:
+                    return redirect('/')
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
             else:
                 # Return an 'invalid login' error message
                 return render(request, 'login_account.html', {'form': form, 'error_message': 'Invalid username or password.'})
@@ -78,7 +95,10 @@ def login_account(request):
 def logout(request):
     django_logout(request)
     return redirect('/login')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
 
 
 @login_required
@@ -94,10 +114,12 @@ def product_list(request):
 @login_required
 def product_creation_form(request):
     try: 
-        if request.method == 'POST':
+        if request.method == 'POST': 
             form = ProductCreationForm(request.POST, request.FILES) 
             if form.is_valid():
-                form.save()  
+                saved_form = form.save()
+                product=Product.objects.get(id=saved_form.id) 
+                ProductVariant.objects.create(product=product,image=saved_form.image,name='name')
                 messages.success(request, 'Record Created Successfully ...!')
                 return redirect('/admin/product_list')
             else:
@@ -186,3 +208,53 @@ def delete_variant(request,id):
         pi.delete()
         messages.success(request,'Product Deleted Successfully!!!')
         return redirect(f'/admin/product_dashboard/{id}')
+
+
+
+def order_list(request):
+    orders = Order.objects.all().select_related()  # Fetch all products
+    context = {
+        'orders': orders,
+    }
+    return render(request, "order_list.html", context)
+
+
+def delete_order(request,id):
+        pi=Order.objects.get(pk=id)
+        pi.delete()
+        messages.success(request,'Order Deleted Successfully!!!')
+        return redirect('/admin/order_list')
+
+
+def order_dashboard(request,id):
+    order_data = get_object_or_404(Order, id=id) 
+    customer_profile = get_object_or_404(UserProfile, user=order_data.user) 
+    order_item=OrderItem.objects.filter(order=order_data).select_related()
+    Form_Update_Status = Update_Order_Status(instance=order_data)
+    context={
+        'order_data':order_data,
+        'order_item':order_item,
+        'customer_profile':customer_profile,
+        'Form_Update_Status':Form_Update_Status,
+        'id':id,
+        }
+    return render(request, 'order_dashboard.html',context)
+
+
+
+
+def update_order_status(request):
+    if request.method == 'POST':
+        form = Update_Order_Status(request.POST)
+        order_id=request.POST.get('order_id')
+        status=request.POST.get('status')
+        Order.objects.filter(id=order_id).update(status=status)
+        print(order_id)
+        return redirect(f'/admin/order_dashboard/{order_id}')
+    else:
+        return redirect('/admin/order_list')
+    
+
+
+
+    

@@ -27,7 +27,11 @@ urlpatterns = [
     # path('login/', AdminViews.admin_login),
     path('create_new_account/', AdminViews.create_new_account, name='create_new_account'),
     path('login/', AdminViews.login_account, name='login_account'),
+<<<<<<< HEAD
     path("accounts/", include("allauth.urls")), # new
+=======
+
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
     path('logout/', AdminViews.logout, name="logout"),
     path('', include(WebUrls)),
     path('admin/', include(AdminUrls)),

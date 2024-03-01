@@ -303,7 +303,13 @@
 					<a href="{% url "cart" %}"><i class="fas fa-shopping-cart"></i> <span class="card_item_count">{% if request.user.userprofile.total_products_in_cart %}{{request.user.userprofile.total_products_in_cart }}{% else %}0{% endif %}</span></a>
 					<a href="" style="margin-left:-5px;"><i class="fas fa-user"></i></a>
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<a href="{% url "logout" %}" style=""><i class="fas fa-lock"></i>{{request.user.username }}</a>
+=======
+					{% if request.user.username %}
+					<a href="{% url "logout" %}" style=""><i class="fas fa-lock"></i></a>
+					{% endif %}
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
 =======
 					{% if request.user.username %}
 					<a href="{% url "logout" %}" style=""><i class="fas fa-lock"></i></a>

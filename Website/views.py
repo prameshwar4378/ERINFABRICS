@@ -5,7 +5,11 @@ from django.http import JsonResponse
 from django.db.models import F, ExpressionWrapper, Sum, DecimalField
 from django.contrib.auth.decorators import login_required
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+from Admin.forms import *
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
 =======
 from Admin.forms import *
 >>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
@@ -48,9 +52,15 @@ def cart(request):
         cart = None
         products = None
 <<<<<<< HEAD
+<<<<<<< HEAD
     return render(request, 'cart.html', {'products': products,'grand_total_amount':grand_total_amount})
 
 @login_required
+=======
+        grand_total_amount=None
+    return render(request, 'cart.html', {'products': products,'grand_total_amount':grand_total_amount})
+ 
+>>>>>>> 263e44feef7f7de6cb964753e8594d21f6fe281d
 =======
         grand_total_amount=None
     return render(request, 'cart.html', {'products': products,'grand_total_amount':grand_total_amount})
