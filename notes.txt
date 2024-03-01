@@ -13,3 +13,6 @@ set value to the html content    //fail      Line no : 169
 
 checkout.html
      Product Total amount missing
+
+
+rameshewar
